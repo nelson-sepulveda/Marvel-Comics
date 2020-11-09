@@ -3,7 +3,7 @@ import axios from 'axios'
 const configCreate = {
   baseURL: 'https://gateway.marvel.com:443/v1/public/',
   headers: {
-    'accept': 'application/json'
+    'Accept': 'application/json'
   },
   params: {
     ts: 1,
