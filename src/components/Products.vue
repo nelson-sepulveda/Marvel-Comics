@@ -348,7 +348,7 @@ export default {
       if (images && images.length > 0) {
         return images[0].path + '.' + images[0].extension
       }
-      return 'http://i.annihil.us/u/prod/marvel/i/mg/c/80/5e3d7536c8ada.jpg'
+      return 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
     },
     getComicsFavorites () {
       if (localStorage.getItem('favoritos')!==null) {
