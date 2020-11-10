@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar/>
-    <div class="container-fluid">
+    <div>
       <router-view/>
     </div>
   </div>
