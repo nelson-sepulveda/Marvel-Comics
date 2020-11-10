@@ -278,7 +278,7 @@ export default {
         solid: true
       })
       this.$bvModal.hide('modal-details-comic')
-    },
+    }, 
     getDescription (text) {
       if (text.length > 40) {
         const mitad = Math.floor((text.length + 5) / 2 + 1)
@@ -286,7 +286,7 @@ export default {
         return cad1
       }
       return text
-    },
+    }, 
     getTextOneLine (text) {
       if (text.length > 13) {
         const mitad = Math.floor((text.length + 5) / 2 + 1)
@@ -753,5 +753,4 @@ h3{
   border: 0;
   border-radius: 0;
 }
-
 </style>
