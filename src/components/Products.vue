@@ -254,13 +254,6 @@ export default {
     this.getComicsFavorites()
     this.getCharacters()
   },
-  computed:{
-    sortedProducts(){
-      return this.products.slice().sort((a,b)=>{
-        return a.product_id - b.product_id
-      })
-    }
-  },
   methods: {
     onPressBuy () {
       let message = ''
@@ -409,11 +402,10 @@ export default {
         }
         const responseDetailCharacter = await configService(request)
         if (responseDetailCharacter && responseDetailCharacter.status === 200) {
-          console.log(responseDetailCharacter)
           const dataComic = responseDetailCharacter.data.data.results[0]
           this.$bvModal.show('modal-details-comic')
           this.detailComic = { ...dataComic }
-          this.detailComic.url = dataComic.thumbnail.path ? dataComic.thumbnail.path+'.'+dataComic.thumbnail.extension : ''
+          this.detailComic.url = dataComic.thumbnail.path ? dataComic.thumbnail.path+'.'+dataComic.thumbnail.extension : 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
           this.detailComic.description = dataComic.description ? dataComic.description : 'No Description'
           this.detailComic.price = dataComic.prices && dataComic.prices.length > 0 ? dataComic.prices[0].price : '0.00'
         }
@@ -429,11 +421,10 @@ export default {
         }
         const responseDetailComic = await configService(request)
         if (responseDetailComic && responseDetailComic.status === 200) {
-          console.log(responseDetailComic)
           const dataComic = responseDetailComic.data.data.results[0]
           this.$bvModal.show('modal-details-comic')
           this.detailComic = { ...dataComic }
-          this.detailComic.url = dataComic.images.length > 0 ? dataComic.images[0].path+'.'+dataComic.images[0].extension : ''
+          this.detailComic.url = dataComic.images.length > 0 ? dataComic.images[0].path+'.'+dataComic.images[0].extension : 'http://i.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available.jpg'
           this.detailComic.price = dataComic.prices.length > 0 ? dataComic.prices[0].price : '0.00'
         }
       } catch (error) {

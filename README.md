@@ -15,3 +15,5 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
+
+Para el despliegue del proyecto visite el siguiente sitío [guide](https://quirky-austin-a002a5.netlify.app/)
