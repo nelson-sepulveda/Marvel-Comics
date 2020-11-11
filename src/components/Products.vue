@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="main-container">
       <div class="container-mini-header-order mb-5 top-header">
         <div class="d-flex justify-content-center">
@@ -12,8 +13,11 @@
             Characters
           </p>
         </div>
-        <div>
-          
+        <div class="image-field col-md-4">
+          <b-form-select
+            v-model="selected"
+            :options="options"
+          />
         </div>
       </div>
       <b-card-group class="container-cards-d-flex">
@@ -69,55 +73,8 @@
           </b-card>
         </div>
       </b-card-group>
-      <div class="card mt-5">
-        <div class="card-header">
-          Product List
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th scope="col">
-                    ID
-                  </th>
-                  <th>
-                    Titulo
-                  </th>
-                  <th>
-                    Fecha
-                  </th>
-                  <th>
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="comic in comics" v-bind:key="comic.id">
-                  <template>
-                    <td>
-                      {{comic.id}}
-                    </td>
-                    <td>
-                      {{comic.title}}
-                    </td>
-                    <td>
-                      {{comic.modified}}
-                    </td>
-                    <td>
-                      <a href="#" class="icon">
-                        <i @click="onPressDetailComic(comic)" class="fa fa-eye"></i>
-                      </a>
-                    </td>
-                  </template>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
     </div>
+
     <div class="sidenav">
       <div class="main-sidenav">
         <div class="title-sidenav">
@@ -240,12 +197,37 @@ import db from '@/db'
 import configService from '@/http/http.js'
 export default {
   name: 'Products',
+  props: {
+    character:{
+      type: String,
+      default: '',
+      required: false
+    }
+  },
   data () {
     return {
       comics: [],
       favoritos: [],
       detailComic: {},
-      characters: []
+      characters: [],
+      selected: null,
+      options: [
+        { value: null, text: 'Sort by' },
+        { value: 'name', text: 'Name' },
+        { value: 'modified', text: 'Modified' },
+        { value: 'all', text: 'All' }
+      ]
+    }
+  },
+  watch: {
+    selected () {
+      if (this.selected && this.selected !== '') {
+        if (this.selected === 'all') {
+          this.getCharacters()
+        } else {
+          this.getOrderByCharacters()
+        }
+      }
     }
   },
   created() {
@@ -255,6 +237,20 @@ export default {
     this.getCharacters()
   },
   methods: {
+    async getOrderByCharacters () {
+      try {
+        const request = {
+          method: 'GET',
+          url: `/characters?orderBy=${this.selected}`
+        }
+        const responseCharacterOrberBy = await configService(request)
+        if (responseCharacterOrberBy && responseCharacterOrberBy.status === 200) {
+          this.mergeCharacters(responseCharacterOrberBy.data.data.results)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
     onPressBuy () {
       let message = ''
       let title = ''
@@ -295,7 +291,6 @@ export default {
           url: '/characters'
         }
         const responseCharacters = await configService(request)
-        console.log(responseCharacters)
         if (responseCharacters && responseCharacters.status === 200) {
           this.mergeCharacters(responseCharacters.data.data.results)
         }
@@ -314,7 +309,6 @@ export default {
           character.imageTh = character.thumbnail.path +'.'+character.thumbnail.extension
         }
       })
-      console.log(results)
       this.characters = results
     },
     getIndex (favoritos, favorito) {
@@ -743,5 +737,9 @@ h3{
   background-color: #fcfbfb !important;
   border: 0;
   border-radius: 0;
+}
+.custom-select {
+  font-size: 1.2rem;
+  border-radius: 0.15rem;
 }
 </style>

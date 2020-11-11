@@ -10,7 +10,8 @@ export default new Router({
     {
       path: '/',
       name: 'Products',
-      component: Products
+      component: Products,
+      props: { character: '' }
     },
     {
       path: '/product/:id',
